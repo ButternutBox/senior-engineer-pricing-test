@@ -52,6 +52,7 @@ We have the ability to change the price of a product. But unfortunately this cha
 Please submit your solution via Greenhouse.
 
 ## Your Explanation
+I explored a couple of options for this task:
 
 Option 1:
 Embed the details of products ordered at order creation
@@ -60,12 +61,19 @@ Embed the details of products ordered at order creation
 |------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | - Optimised for read<br/>- Comprehensive history of products<br/>- Order table can be made 'read-only' to prevent accidental errors in future  | - Increased complexity of order objects<br/>- Any historic changes will be more complicated |
 
+> Ultimately this failed because I was not able to derive the price on creation of an order product and have that persist to the database. This is likely possible with more knowledge of Ruby / Rails.
+
 Option 2:
-Add versioning to products
-Possible via pg?
+Add pricing table to store history of prices directly
 
-| Pros                                                                                                                                     | Cons                                                                                                                                       |
-|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| - Optimised for writes<br/>Comprehensive history of products and pricing history<br/>Simplified data model with minimal changes required | - Optimisation for write introduces overhead for read, which is likely to be the most common operation on orders<br/>- Harder to implement |
+| Pros                                                                              | Cons                                                                                                                                       |
+|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| - Optimised for writes<br/>Comprehensive history of products and pricing history  | - Optimisation for write introduces overhead for read, which is likely to be the most common operation on orders<br/>- Harder to implement |
 
-// TOOD migration?
+> This was my eventual solution - creating a linking table between the products and the ordered products. I expect the logic flow to exist as follows:
+> 1. User requests a new price to be created for an object
+>    1. Create a new price, save to the `prices` table
+>    1. Update `product` to point to the latest price
+> 2. Customer places an order
+>    1. `Order` is created in `orders` table and line items in `order_products`
+>    2. Every `Order Product` is linked to the `price` paid at time of order
