@@ -21,10 +21,19 @@ RSpec.describe Order do
 
   describe 'total' do
     let(:order) { build(:order, order_products:) }
-    let(:order_products) { build_list(:order_product, 2, quantity: 2, product: build(:product, price_in_cents: 100)) }
+    let(:price) { build(:price, price_in_cents: 100) }
+    let(:order_products) { build_list(:order_product, 2, quantity: 2, price:) }
 
     it 'returns the total' do
       expect(order.total).to eq(400)
+    end
+
+    it 'price of new order will use the new price' do
+      # In real app we will create a new price object but this represents the behaviour enough
+      price.price_in_cents += 10
+
+      new_order = build(:order, order_products:)
+      expect(new_order.total).to eq(440)
     end
   end
 

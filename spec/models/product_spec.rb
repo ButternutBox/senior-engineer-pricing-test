@@ -17,10 +17,6 @@ RSpec.describe Product do
     it 'validates presence of name' do
       expect(described_class.new).to validate_presence_of(:name)
     end
-
-    it 'validates presence of price_in_cents' do
-      expect(described_class.new).to validate_presence_of(:price_in_cents)
-    end
   end
 
   describe 'ransackable_attributes' do

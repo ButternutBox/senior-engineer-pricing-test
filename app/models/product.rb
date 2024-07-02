@@ -6,10 +6,10 @@
 class Product < ApplicationRecord
   # belongs to
   belongs_to :sku
+  belongs_to :price
 
   # validations
   validates :name, presence: true
-  validates :price_in_cents, presence: true
 
   # class methods
   def self.ransackable_attributes(_auth_object = nil)

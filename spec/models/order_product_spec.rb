@@ -12,8 +12,8 @@ RSpec.describe OrderProduct do
       expect(described_class.new).to belong_to(:order)
     end
 
-    it 'belongs to product' do
-      expect(described_class.new).to belong_to(:product)
+    it 'belongs to price' do
+      expect(described_class.new).to belong_to(:price)
     end
   end
 
@@ -24,10 +24,24 @@ RSpec.describe OrderProduct do
   end
 
   describe 'subtotal' do
-    let(:order_product) { build(:order_product, quantity: 2, product: build(:product, price_in_cents: 100)) }
+    let(:price) { build(:price, price_in_cents: 100) }
+    let(:order_product) { build(:order_product, quantity: 2, price:) }
 
     it 'returns the subtotal' do
       expect(order_product.subtotal).to eq(200)
+    end
+  end
+
+  describe 'immutable orders' do
+    let(:price) { build(:price, price_in_cents: 100) }
+    let(:order_product) { build(:order_product, quantity: 2, price:) }
+
+    it 'price of new order products will use the new price' do
+      # In real app we will create a new price object but this represents the behaviour enough
+      price.price_in_cents = 200
+
+      new_order_product = build(:order_product, quantity: 1, price:)
+      expect(new_order_product.subtotal).to eq(200)
     end
   end
 

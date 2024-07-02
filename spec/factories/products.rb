@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :product do
     sequence(:name) { |n| "Product #{n}" }
     sku
-    price_in_cents { 1000 }
+    price
   end
 end

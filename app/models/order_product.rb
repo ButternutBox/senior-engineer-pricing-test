@@ -7,7 +7,7 @@
 class OrderProduct < ApplicationRecord
   # belongs to
   belongs_to :order
-  belongs_to :product
+  belongs_to :price
 
   # validations
   validates :quantity, presence: true
@@ -18,7 +18,7 @@ class OrderProduct < ApplicationRecord
   # @return [Integer] the subtotal
   #
   def subtotal
-    quantity * product.price_in_cents
+    quantity * price.price_in_cents
   end
 
   # class methods

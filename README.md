@@ -53,4 +53,19 @@ Please submit your solution via Greenhouse.
 
 ## Your Explanation
 
-Please write here a short explanation of your architectural design choices.
+Option 1:
+Embed the details of products ordered at order creation
+
+| Pros                                                                                                                                           | Cons                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| - Optimised for read<br/>- Comprehensive history of products<br/>- Order table can be made 'read-only' to prevent accidental errors in future  | - Increased complexity of order objects<br/>- Any historic changes will be more complicated |
+
+Option 2:
+Add versioning to products
+Possible via pg?
+
+| Pros                                                                                                                                     | Cons                                                                                                                                       |
+|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| - Optimised for writes<br/>Comprehensive history of products and pricing history<br/>Simplified data model with minimal changes required | - Optimisation for write introduces overhead for read, which is likely to be the most common operation on orders<br/>- Harder to implement |
+
+// TOOD migration?

@@ -16,17 +16,21 @@ AdminUser.create!(
 
 sku = Sku.create!(product_code: 'SKU-001')
 
+order = Order.create!(shipping_date: Date.today)
+
+price = Price.create!(
+  price_in_cents: 1000
+)
+
 product = Product.create!(
   name: 'Product 1',
-  price_in_cents: 1000,
+  price:,
   sku:
 )
 
-order = Order.create!(shipping_date: Date.today)
-
 order_product = OrderProduct.create!(
   order:,
-  product:,
+  price:,
   quantity: 2
 )
 
