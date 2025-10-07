@@ -53,4 +53,27 @@ Please submit your solution via Greenhouse.
 
 ## Your Explanation
 
-Please write here a short explanation of your architectural design choices.
+### Solution Overview
+
+To solve the problem of changing prices affecting historical orders, I implemented a **price snapshotting** approach. When an `OrderProduct` is created, the current price of the product is captured and stored in a new column `price_snapshot_in_cents` on the `order_products` table.
+
+### Architectural Design Choices
+
+**1. Database Schema:**
+- Added `price_snapshot_in_cents` column to `order_products` table
+- This denormalizes the data but ensures historical accuracy
+
+**2. Model Changes:**
+- Implemented a `before_save` callback in `OrderProduct` to capture the price
+- Updated the `subtotal` method to use `price_snapshot_in_cents` instead of `product.price_in_cents`
+
+**3. Benefits:**
+- Simple implementation with minimal code changes
+- Existing orders are not affected by product price changes
+- New orders automatically capture the current price
+- The subtotal calculation is straightforward and fast
+
+**4. Trade-offs:**
+- Data duplication (price exists in both `products` and `order_products`)
+- Slight increase in storage requirements
+- Need to ensure the snapshot is captured correctly on every save

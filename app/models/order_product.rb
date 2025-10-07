@@ -12,13 +12,16 @@ class OrderProduct < ApplicationRecord
   # validations
   validates :quantity, presence: true
 
+  # callbacks
+  before_save :capture_price_snapshot
+
   #
   # Calculates the subtotal for the given order product
   #
   # @return [Integer] the subtotal
   #
   def subtotal
-    quantity * product.price_in_cents
+    quantity * price_snapshot_in_cents
   end
 
   # class methods
@@ -28,5 +31,14 @@ class OrderProduct < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[order product]
+  end
+
+  private
+
+  #
+  # Captures the current price of the product at the time of order
+  #
+  def capture_price_snapshot
+    self.price_snapshot_in_cents = product.price_in_cents
   end
 end
