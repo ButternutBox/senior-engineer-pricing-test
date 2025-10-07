@@ -20,8 +20,9 @@ RSpec.describe Order do
   end
 
   describe 'total' do
-    let(:order) { build(:order, order_products:) }
-    let(:order_products) { build_list(:order_product, 2, quantity: 2, product: build(:product, price_in_cents: 100)) }
+    let(:product) { create(:product, price_in_cents: 100) }
+    let(:order) { create(:order) }
+    let!(:order_products) { create_list(:order_product, 2, order: order, quantity: 2, product: product) }
 
     it 'returns the total' do
       expect(order.total).to eq(400)

@@ -53,4 +53,4 @@ Please submit your solution via Greenhouse.
 
 ## Your Explanation
 
-Please write here a short explanation of your architectural design choices.
+### Solution Overview
