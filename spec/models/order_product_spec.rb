@@ -23,11 +23,36 @@ RSpec.describe OrderProduct do
     end
   end
 
-  describe 'subtotal' do
-    let(:order_product) { build(:order_product, quantity: 2, product: build(:product, price_in_cents: 100)) }
+  describe 'price snapshotting' do
+    let(:product) { create(:product, price_in_cents: 100) }
+    let(:order) { create(:order) }
+    let(:order_product) { build(:order_product, order: order, product: product, quantity: 2) }
 
-    it 'returns the subtotal' do
+    it 'captures the price when order_product is saved' do
+      order_product.save
+      expect(order_product.price_snapshot_in_cents).to eq(100)
+    end
+
+    it 'does not change when product price changes' do
+      order_product.save
+      product.update(price_in_cents: 200)
+      expect(order_product.reload.price_snapshot_in_cents).to eq(100)
+    end
+  end
+
+  describe 'subtotal' do
+    let(:product) { create(:product, price_in_cents: 100) }
+    let(:order) { create(:order) }
+    let(:order_product) { create(:order_product, order: order, product: product, quantity: 2) }
+
+    it 'returns the subtotal using snapshot price' do
       expect(order_product.subtotal).to eq(200)
+    end
+
+    it 'uses snapshot price even when product price changes' do
+      original_subtotal = order_product.subtotal
+      product.update(price_in_cents: 500)
+      expect(order_product.reload.subtotal).to eq(original_subtotal)
     end
   end
 
