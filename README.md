@@ -40,17 +40,7 @@ An Order is a collection of OrderProducts. Order Products are essentially line i
 
 The shipping date is also stored on an Order.
 
-## The Task
+## The issue
 
 We have the ability to change the price of a product. But unfortunately this changes the value of every existing order. Even if they've been shipped already. We would like to be able to change prices without effecting the price totals of existing orders.
 
-** Acceptance Criteria: **
-
-* The price of existing orders must not change
-* The price of new orders will use the new price
-
-Please submit your solution via Greenhouse.
-
-## Your Explanation
-
-Please write here a short explanation of your architectural design choices.
