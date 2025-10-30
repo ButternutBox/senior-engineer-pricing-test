@@ -20,7 +20,7 @@ bundle exec rspec
 This rails application is a very basic implementation of a headless E-Commerce system. The system may be interacted with via multiple clients, such as a RESTful Admin interface, a GraphQL layer, or extracted through data pipelines for analysis.
 
 ### IMPORTANT NOTE
-This is a deliberately “open” tech test because we expect experienced engineers to set help set direction and make recommendations that will benefit the company.
+This is a deliberately “open” tech test because we expect experienced engineers to help set direction and make recommendations that will benefit the company.
 Please feel free to make assumptions about things that you might normally check with a product manager or stakeholder. But please explain your thinking if you do.
 With that in mind, please treat this test as though it were a real piece of work on a production system and produce a solution that you would be happy to maintain in the future, and which is thoughtful to potential future extensions and analyses.
 
